@@ -16,6 +16,9 @@ iface eth0 inet dhcp
 auto eth1
 iface eth1 inet dhcp
     post-up iptables -t nat -A POSTROUTING -s {{direccion_red}} -o {{interfaz_salida}} -j MASQUERADE
+
+    post-up iptables -t nat -A PREROUTING -p tcp --dport 80 -i {{interfaz_salida}} -j DNAT --to {{cliente_address}}
+
     #post-up ip route del default dev $IFACE || true
 #VAGRANT-END
 
